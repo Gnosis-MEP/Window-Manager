@@ -50,7 +50,7 @@ class WindowManager(BaseTracerService):
             'query_id': query_id,
         }
         self.logger.debug(f'Sending window to Matcher: {new_event_data}')
-        self.write_event_with_trace(new_event_data, self.somewhere_stream)
+        self.write_event_with_trace(new_event_data, self.matcher_stream)
 
     @timer_logger
     def process_data_event(self, event_data, json_msg):
