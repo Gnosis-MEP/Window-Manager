@@ -34,7 +34,7 @@ class TumblingCountWindowControllerTestCase(TestCase):
         }
 
     def test_repr_is_correct(self):
-        self.assertEquals('TumblingCountWindowController(query_id1, *(3,))', self.window_controller.__repr__())
+        self.assertEquals('TumblingCountWindowController("query_id1", *(3,))', self.window_controller.__repr__())
 
     def test_update_windows_correctly_updates_datastructure_if_first_event(self):
         buffer_stream_key = self.event_data1['buffer_stream_key']

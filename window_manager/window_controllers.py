@@ -10,7 +10,7 @@ class TumblingCountWindowController(object):
 
     def __repr__(self):
         class_name = self.__class__.__name__
-        text = f'{class_name}({self.query_id}, *{self.args})'
+        text = f'{class_name}("{self.query_id}", *{self.args})'
         return text
 
     def update_windows(self, event_data):

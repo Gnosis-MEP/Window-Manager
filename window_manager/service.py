@@ -93,6 +93,7 @@ class WindowManager(BaseTracerService):
 
     def log_state(self):
         super(WindowManager, self).log_state()
+        self._log_dict('Query Windows', self.query_windows)
 
     def run(self):
         super(WindowManager, self).run()
