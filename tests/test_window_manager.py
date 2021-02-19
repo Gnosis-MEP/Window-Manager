@@ -174,8 +174,8 @@ class TestWindowManager(MockedServiceStreamTestCase):
         query_1_window_controller = MagicMock()
         query_2_window_controller = MagicMock()
 
-        query_1_window_controller.get_and_reset_finished_bufferstream_windows.return_value = {'query_1': [1, 2, 3]}
-        query_2_window_controller.get_and_reset_finished_bufferstream_windows.return_value = {'query_2': [4, 5, 6]}
+        query_1_window_controller.get_and_reset_finished_bufferstream_windows.return_value = ([1, 2, 3],)
+        query_2_window_controller.get_and_reset_finished_bufferstream_windows.return_value = ([4, 5, 6],)
         self.service.query_windows = {
             'query_id1': query_1_window_controller,
             'query_id2': query_2_window_controller,

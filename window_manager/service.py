@@ -39,7 +39,7 @@ class WindowManager(BaseTracerService):
 
     def send_finished_windows(self):
         for query_id, window_controler in self.query_windows.items():
-            finished_windows = window_controler.get_and_reset_finished_bufferstream_windows().values()
+            finished_windows = window_controler.get_and_reset_finished_bufferstream_windows()
             for window in finished_windows:
                 self.send_window_to_matcher(query_id, window)
 
