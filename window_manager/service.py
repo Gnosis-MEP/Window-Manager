@@ -41,12 +41,13 @@ class WindowManager(BaseTracerService):
         for query_id, window_controler in self.query_windows.items():
             finished_windows = window_controler.get_and_reset_finished_bufferstream_windows().values()
             for window in finished_windows:
-                self.send_window_to_matcher(window)
+                self.send_window_to_matcher(query_id, window)
 
-    def send_window_to_matcher(self, window):
+    def send_window_to_matcher(self, query_id, window):
         new_event_data = {
             'id': self.service_based_random_event_id(),
-            'vekg_stream': window
+            'vekg_stream': window,
+            'query_id': query_id,
         }
         self.logger.debug(f'Sending window to Matcher: {new_event_data}')
         self.write_event_with_trace(new_event_data, self.somewhere_stream)

@@ -157,11 +157,6 @@ class TestWindowManager(MockedServiceStreamTestCase):
     @patch('window_manager.service.WindowManager.send_finished_windows')
     @patch('window_manager.service.WindowManager.add_event_to_query_windows')
     def test_process_data_event_should_call_send_finished_windows(self, mocked_add_event, mocked_send_windows):
-        # query_1_window_controller = MagicMock()
-
-        # self.service.query_windows = {
-        #     'query_id1': query_1_window_controller,
-        # }
         event_data = {
             'id': 'event-id-1',
             'vekg': {},
@@ -173,7 +168,6 @@ class TestWindowManager(MockedServiceStreamTestCase):
         self.service.process_data_event(event_data, json_msg)
         self.assertTrue(mocked_send_windows.called)
         self.assertTrue(mocked_add_event.called)
-        # self.assertTrue(query_1_window_controller.get_and_reset_finished_bufferstream_windows.called)
 
     @patch('window_manager.service.WindowManager.send_window_to_matcher')
     def test_send_finished_windows_should_call_send_windows_to_matcher_for_each_window(self, mocked_send_to_matcher):
@@ -188,14 +182,5 @@ class TestWindowManager(MockedServiceStreamTestCase):
         }
         self.service.send_finished_windows()
         self.assertEqual(2, mocked_send_to_matcher.call_count)
-        self.assertListEqual([1, 2, 3], list((mocked_send_to_matcher.mock_calls[0]))[1][0])
-        self.assertListEqual([4, 5, 6], list((mocked_send_to_matcher.mock_calls[1]))[1][0])
-
-
-
-
-    # def send_finished_windows(self):
-    #     for query_id, window_controler in self.query_windows.items():
-    #         finished_windows = window_controler.get_and_reset_finished_bufferstream_windows().values()
-    #         for window in finished_windows:
-    #             self.send_window_to_matcher(window)
+        self.assertListEqual(['query_id1', [1, 2, 3]], list((mocked_send_to_matcher.mock_calls[0])[1]))
+        self.assertListEqual(['query_id2', [4, 5, 6]], list((mocked_send_to_matcher.mock_calls[1])[1]))
