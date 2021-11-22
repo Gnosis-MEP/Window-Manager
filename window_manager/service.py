@@ -1,15 +1,15 @@
 import threading
 
 from event_service_utils.logging.decorators import timer_logger
-from event_service_utils.services.tracer import BaseTracerService
+from event_service_utils.services.event_driven import BaseEventDrivenCMDService
 from event_service_utils.tracing.jaeger import init_tracer
 from window_manager.window_controllers import TumblingCountWindowController
 
 
-class WindowManager(BaseTracerService):
+class WindowManager(BaseEventDrivenCMDService):
     def __init__(self,
-                 service_stream_key, service_cmd_key,
-                 matcher_stream_key,
+                 service_stream_key, service_cmd_key_list,
+                 pub_event_list, service_details,
                  stream_factory,
                  logging_level,
                  tracer_configs):
@@ -17,15 +17,15 @@ class WindowManager(BaseTracerService):
         super(WindowManager, self).__init__(
             name=self.__class__.__name__,
             service_stream_key=service_stream_key,
-            service_cmd_key=service_cmd_key,
+            service_cmd_key_list=service_cmd_key_list,
+            pub_event_list=pub_event_list,
+            service_details=service_details,
             stream_factory=stream_factory,
             logging_level=logging_level,
             tracer=tracer,
         )
-        self.cmd_validation_fields = ['id', 'action']
+        self.cmd_validation_fields = ['id']
         self.data_validation_fields = ['id']
-
-        self.matcher_stream = self.stream_factory.create(key=matcher_stream_key, stype='streamOnly')
 
         self.window_controllers = {
             'TUMBLING_COUNT_WINDOW': TumblingCountWindowController,
@@ -83,12 +83,13 @@ class WindowManager(BaseTracerService):
         window_controller_args = window['args']
         self.query_windows[query_id] = window_controller_class(query_id, *window_controller_args)
 
-    def process_action(self, action, event_data, json_msg):
-        if not super(WindowManager, self).process_action(action, event_data, json_msg):
+    def process_event_type(self, event_type, event_data, json_msg):
+        if not super(WindowManager, self).process_event_type(event_type, event_data, json_msg):
             return False
-        if action == 'addQueryWindow':
+        if event_type == 'QueryCreated':
+            parsed_query = event_data['parsed_query']
             query_id = event_data['query_id']
-            window = event_data['window']
+            window = parsed_query['window']
             self.add_query_window_action(query_id=query_id, window=window)
 
     def log_state(self):
