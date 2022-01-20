@@ -10,6 +10,7 @@ class WindowManager(BaseEventDrivenCMDService):
     def __init__(self,
                  service_stream_key, service_cmd_key_list,
                  pub_event_list, service_details,
+                 matcher_stream_key,
                  stream_factory,
                  logging_level,
                  tracer_configs):
@@ -26,6 +27,8 @@ class WindowManager(BaseEventDrivenCMDService):
         )
         self.cmd_validation_fields = ['id']
         self.data_validation_fields = ['id']
+        self.matcher_stream_key = matcher_stream_key
+        self.matcher_stream = self.stream_factory.create(key=matcher_stream_key, stype='streamOnly')
 
         self.window_controllers = {
             'TUMBLING_COUNT_WINDOW': TumblingCountWindowController,

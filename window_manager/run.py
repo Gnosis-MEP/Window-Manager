@@ -8,6 +8,7 @@ from window_manager.conf import (
     REDIS_PORT,
     PUB_EVENT_LIST,
     SERVICE_STREAM_KEY,
+    MATCHER_STREAM_KEY,
     SERVICE_CMD_KEY_LIST,
     LOGGING_LEVEL,
     TRACER_REPORTING_HOST,
@@ -27,6 +28,7 @@ def run_service():
         service_cmd_key_list=SERVICE_CMD_KEY_LIST,
         pub_event_list=PUB_EVENT_LIST,
         service_details=SERVICE_DETAILS,
+        matcher_stream_key=MATCHER_STREAM_KEY,
         stream_factory=stream_factory,
         logging_level=LOGGING_LEVEL,
         tracer_configs=tracer_configs

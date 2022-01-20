@@ -7,6 +7,7 @@ from window_manager.service import WindowManager
 
 from window_manager.conf import (
     SERVICE_STREAM_KEY,
+    MATCHER_STREAM_KEY,
     SERVICE_CMD_KEY_LIST,
     SERVICE_DETAILS,
     PUB_EVENT_LIST,
@@ -19,6 +20,7 @@ class TestWindowManager(MockedEventDrivenServiceStreamTestCase):
         'service_cmd_key_list': SERVICE_CMD_KEY_LIST,
         'pub_event_list': PUB_EVENT_LIST,
         'service_details': SERVICE_DETAILS,
+        'matcher_stream_key': MATCHER_STREAM_KEY,
         'logging_level': 'ERROR',
         'tracer_configs': {'reporting_host': None, 'reporting_port': None},
     }
